@@ -1,0 +1,331 @@
+.shell {
+  position: relative;
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: auto auto 1fr;
+  overflow: hidden;
+  padding: max(var(--space-4), env(safe-area-inset-top))
+    max(var(--space-4), env(safe-area-inset-right))
+    max(var(--space-5), env(safe-area-inset-bottom))
+    max(var(--space-4), env(safe-area-inset-left));
+  color: var(--color-ivory-solid);
+}
+
+.scene,
+.scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.scene {
+  z-index: -2;
+  overflow: hidden;
+  transform: scale(1.01);
+  animation: sceneCrossfade var(--duration-scene-transition) var(--ease-standard) both;
+}
+
+.sceneImage {
+  object-fit: cover;
+  object-position: center center;
+  transform-origin: center;
+  animation: backgroundDrift 26s ease-in-out infinite alternate;
+}
+
+.scene[data-scene="birth"] .sceneImage {
+  object-position: center 42%;
+}
+
+.scene[data-scene="learning-center"] .sceneImage {
+  object-position: center 46%;
+}
+
+.scene[data-scene="old-park"] .sceneImage {
+  object-position: center 54%;
+}
+
+.scene[data-scene="risk-room"] .sceneImage {
+  object-position: 56% center;
+}
+
+.scene[data-scene="life-planning"] .sceneImage {
+  object-position: 48% center;
+}
+
+.scene[data-scene="work-service"] .sceneImage {
+  object-position: 52% 46%;
+}
+
+.scene[data-scene="medical-room"] .sceneImage,
+.scene[data-scene="longevity-room"] .sceneImage {
+  object-position: center 44%;
+}
+
+.scene[data-scene="day-sea"]::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: url("/assets/scenes/06-services.png") 52% 46% / cover no-repeat;
+  pointer-events: none;
+  animation: workHallExit 1200ms var(--ease-standard) both;
+}
+
+.daySeaLights {
+  position: absolute;
+  inset: -12%;
+  opacity: 0.72;
+  background:
+    radial-gradient(circle at 18% 34%, rgba(232, 253, 255, 0.9) 0 2px, transparent 3px),
+    radial-gradient(circle at 72% 22%, rgba(226, 250, 255, 0.8) 0 3px, transparent 4px),
+    radial-gradient(circle at 42% 58%, rgba(171, 239, 250, 0.65) 0 2px, transparent 3px),
+    radial-gradient(ellipse at 50% 76%, rgba(170, 239, 250, 0.3), transparent 42%);
+  background-size: 19rem 13rem, 23rem 17rem, 17rem 21rem, 100% 100%;
+  mix-blend-mode: screen;
+  z-index: 2;
+  animation: seaLights 14s ease-in-out infinite alternate;
+}
+
+.scrim {
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(2, 20, 25, 0.82), rgba(6, 39, 46, 0.16) 38%),
+    linear-gradient(90deg, rgba(2, 20, 25, 0.52), transparent 58%),
+    linear-gradient(0deg, rgba(2, 15, 20, 0.9), transparent 64%);
+}
+
+.header {
+  display: flex;
+  z-index: 2;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.chapterMeta {
+  display: flex;
+  max-width: min(70vw, 56rem);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  text-shadow: 0 2px 16px var(--color-shadow);
+}
+
+.stage,
+.year {
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+.stage {
+  font-size: 1.1rem;
+}
+
+.year {
+  color: var(--color-rust-gold);
+  font-size: 1.45rem;
+}
+
+.location {
+  width: 100%;
+  color: rgba(249, 245, 234, 0.76);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-2);
+}
+
+.secondaryAction,
+.resetAction {
+  border: 1px solid rgba(249, 245, 234, 0.38);
+  border-radius: 999px;
+  padding: 0.62rem 1rem;
+  color: var(--color-ivory-solid);
+  background: rgba(10, 36, 45, 0.58);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition:
+    border-color var(--duration-control) var(--ease-standard),
+    background-color var(--duration-control) var(--ease-standard);
+}
+
+.secondaryAction:hover,
+.secondaryAction[aria-pressed="true"],
+.resetAction:hover {
+  border-color: var(--color-rust-gold);
+  background: rgba(10, 36, 45, 0.82);
+}
+
+.storyFrame {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  width: 82vw;
+  margin: auto auto 0;
+  border: 1px solid rgba(249, 245, 234, 0.34);
+  border-radius: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  color: var(--color-deep-teal-ink);
+  background: var(--color-ivory-glass);
+  box-shadow: 0 24px 70px var(--color-shadow);
+  backdrop-filter: blur(20px);
+  max-height: 72dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: rgba(139, 98, 52, 0.58) transparent;
+  animation: frameIn var(--duration-stage-transition) var(--ease-standard) both;
+}
+
+.kicker {
+  color: #776247;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.storyFrame h1 {
+  margin-top: var(--space-2);
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 3vw, 2.8rem);
+  line-height: 1.25;
+}
+
+.question {
+  margin-top: var(--space-3);
+  color: var(--color-deep-teal-gray);
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+@keyframes frameIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sceneCrossfade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backgroundDrift {
+  from {
+    transform: scale(1.03) translate3d(-0.35%, -0.2%, 0);
+  }
+  to {
+    transform: scale(1.09) translate3d(0.5%, 0.3%, 0);
+  }
+}
+
+@keyframes seaLights {
+  from {
+    transform: translate3d(-1%, 0.5%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.4%, -1%, 0) scale(1.03);
+  }
+}
+
+@keyframes workHallExit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .storyFrame {
+    width: min(82vw, 58rem);
+    max-height: 74dvh;
+  }
+}
+
+@media (max-width: 767px) {
+  .shell {
+    grid-template-rows: auto 1fr;
+    padding-top: max(var(--space-3), env(safe-area-inset-top));
+  }
+
+  .header {
+    gap: var(--space-3);
+  }
+
+  .chapterMeta {
+    max-width: 58vw;
+  }
+
+  .location {
+    display: none;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .secondaryAction,
+  .resetAction {
+    padding: 0.55rem 0.75rem;
+  }
+
+  .storyFrame {
+    width: 100%;
+    max-height: min(75dvh, calc(100dvh - 7.5rem));
+    border-radius: 1.1rem;
+    padding: var(--space-4);
+  }
+
+  .storyFrame h1 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+  }
+}
+
+@media (max-width: 430px) {
+  .chapterMeta {
+    max-width: 50vw;
+  }
+
+  .stage {
+    font-size: 0.92rem;
+  }
+
+  .year {
+    font-size: 1.12rem;
+  }
+
+  .secondaryAction,
+  .resetAction {
+    min-height: 2.45rem;
+    font-size: 0.76rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .sceneImage,
+  .daySeaLights,
+  .storyFrame {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .scene[data-scene="day-sea"]::before {
+    display: none;
+    animation: none !important;
+  }
+}
