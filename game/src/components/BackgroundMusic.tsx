@@ -65,8 +65,6 @@ export default function BackgroundMusic() {
     return () => {
       release();
       audio.pause();
-      audio.removeAttribute("src");
-      audio.load();
     };
   }, []);
 
