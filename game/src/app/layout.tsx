@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import BackgroundMusic from "../components/BackgroundMusic";
 
 export const metadata: Metadata = {
   title: "《余生协议：一个普通人的100年》",
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        {children}
+        <BackgroundMusic />
+      </body>
     </html>
   );
 }
